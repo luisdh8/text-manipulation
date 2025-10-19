@@ -1,0 +1,28 @@
+Estadísticas de: manifesto.txt
+==================================================
+
+Total de palabras (tokens): 9616
+Palabras únicas (vocabulario): 3012
+Stopwords eliminadas: Sí
+
+Primeras 20 palabras del vocabulario:
+ablaze
+able
+abolish
+abolished
+abolishes
+abolishing
+abolition
+absence
+absolute
+absolutely
+absolutism
+absorbed
+absurdity
+abuses
+acceptable
+accompanied
+accompanying
+accomplished
+accordance
+according

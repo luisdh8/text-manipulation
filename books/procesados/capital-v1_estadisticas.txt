@@ -1,0 +1,28 @@
+Estadísticas de: capital-v1.txt
+==================================================
+
+Total de palabras (tokens): 175821
+Palabras únicas (vocabulario): 19202
+Stopwords eliminadas: Sí
+
+Primeras 20 palabras del vocabulario:
+aa
+aargau
+ab
+abandoned
+abandoned”
+abandonment
+abatements
+abbc
+abbondantemente”
+abbondanti
+abbreviated
+abbreviating
+abbreviation
+abbé
+abel
+aberdeen
+abhor
+abide
+abilities
+ability
