@@ -98,42 +98,107 @@ def lcSub(S_1, S_2):
 
 
 def analizar_textos(texto1, texto2, nombre1, nombre2):
-    """Analiza dos textos con el algoritmo lcSub"""
+    """Analiza dos textos con el algoritmo lcSub usando bloques para textos grandes"""
     
     print(f"\n=== ANÁLISIS DE SUBSTRING COMÚN MÁS LARGO ===")
     print(f"Texto 1: {nombre1} ({len(texto1):,} caracteres)")
     print(f"Texto 2: {nombre2} ({len(texto2):,} caracteres)")
     
-    # Para evitar problemas de memoria/tiempo, trabajamos con muestras
-    TAMAÑO_MUESTRA = 30000  # 10,000 caracteres por muestra
+    # Tamaño de bloque para procesamiento
+    TAMAÑO_BLOQUE = 5000  # 50,000 caracteres por bloque
     
-    muestra1 = texto1[:TAMAÑO_MUESTRA]
-    muestra2 = texto2[:TAMAÑO_MUESTRA]
-    
-    print(f"Analizando muestras de {TAMAÑO_MUESTRA:,} caracteres para evitar problemas de memoria")
-    print(f"Muestra 1: {len(muestra1):,} caracteres")
-    print(f"Muestra 2: {len(muestra2):,} caracteres")
-    
-    # Medir tiempo de ejecución
-    tiempo_inicio = time.time()
-    
-    # Ejecutar algoritmo (SOLO el del pseudocódigo)
-    longitud, substring = lcSub(muestra1, muestra2)
-    
-    tiempo_fin = time.time()
-    tiempo_ejecucion = tiempo_fin - tiempo_inicio
-    
-    # Calcular porcentaje de similitud básico (sobre las muestras)
-    if len(muestra1) > 0 and len(muestra2) > 0:
-        porcentaje_similitud = (2 * longitud) / (len(muestra1) + len(muestra2)) * 100
+    # Si los textos son pequeños, procesar directamente
+    if len(texto1) <= TAMAÑO_BLOQUE and len(texto2) <= TAMAÑO_BLOQUE:
+        print(f"\nTextos suficientemente pequeños - análisis directo")
+        
+        tiempo_inicio = time.time()
+        longitud, substring = lcSub(texto1, texto2)
+        tiempo_ejecucion = time.time() - tiempo_inicio
+        
+        if len(texto1) > 0 and len(texto2) > 0:
+            porcentaje_similitud = (2 * longitud) / (len(texto1) + len(texto2)) * 100
+        else:
+            porcentaje_similitud = 0
+        
+        mejor_par = None
+        total_bloques = None
+        metodo = "directo"
     else:
-        porcentaje_similitud = 0
+        # Dividir en bloques para textos grandes
+        print(f"\nTextos grandes - usando división en bloques de {TAMAÑO_BLOQUE:,} caracteres")
+        
+        bloques1 = [texto1[i:i+TAMAÑO_BLOQUE] for i in range(0, len(texto1), TAMAÑO_BLOQUE)]
+        bloques2 = [texto2[i:i+TAMAÑO_BLOQUE] for i in range(0, len(texto2), TAMAÑO_BLOQUE)]
+        
+        print(f"Bloques de texto 1: {len(bloques1)}")
+        print(f"Bloques de texto 2: {len(bloques2)}")
+        
+        # Limitar comparaciones si hay demasiados bloques
+        max_comparaciones = 50
+        total_comparaciones = len(bloques1) * len(bloques2)
+        
+        if total_comparaciones > max_comparaciones:
+            # Muestreo estratégico
+            step1 = max(1, len(bloques1) // 7)
+            step2 = max(1, len(bloques2) // 7)
+            bloques1_muestra = bloques1[::step1]
+            bloques2_muestra = bloques2[::step2]
+            print(f"Demasiados bloques - usando muestreo (cada {step1} x cada {step2})")
+        else:
+            bloques1_muestra = bloques1
+            bloques2_muestra = bloques2
+        
+        print(f"Comparaciones a realizar: {len(bloques1_muestra) * len(bloques2_muestra)}")
+        
+        # Variables para el mejor resultado
+        mejor_longitud = 0
+        mejor_substring = ""
+        mejor_par = (0, 0)
+        
+        tiempo_inicio = time.time()
+        
+        total = len(bloques1_muestra) * len(bloques2_muestra)
+        actual = 0
+        
+        # Comparar cada par de bloques
+        for i, bloque1 in enumerate(bloques1_muestra):
+            for j, bloque2 in enumerate(bloques2_muestra):
+                actual += 1
+                print(f"   Procesando: {actual}/{total} ({actual*100//total}%)...", end='\r')
+                
+                longitud_actual, substring_actual = lcSub(bloque1, bloque2)
+                
+                if longitud_actual > mejor_longitud:
+                    mejor_longitud = longitud_actual
+                    mejor_substring = substring_actual
+                    mejor_par = (i, j)
+        
+        print()  # Nueva línea después del progreso
+        
+        tiempo_ejecucion = time.time() - tiempo_inicio
+        
+        longitud = mejor_longitud
+        substring = mejor_substring
+        
+        # Calcular similitud basada en el mejor bloque
+        if TAMAÑO_BLOQUE > 0:
+            porcentaje_similitud = (2 * longitud) / (TAMAÑO_BLOQUE + TAMAÑO_BLOQUE) * 100
+        else:
+            porcentaje_similitud = 0
+        
+        total_bloques = (len(bloques1_muestra), len(bloques2_muestra))
+        metodo = "bloques"
     
     # Mostrar resultados
     print(f"\nRESULTADOS:")
     print(f"• Longitud del substring común más largo: {longitud:,} caracteres")
     print(f"• Porcentaje de similitud: {porcentaje_similitud:.2f}%")
     print(f"• Tiempo de ejecución: {tiempo_ejecucion:.4f} segundos")
+    print(f"• Método usado: {metodo}")
+    
+    if metodo == "bloques":
+        print(f"• Total de bloques comparados: {total_bloques}")
+        print(f"• Mejor coincidencia encontrada en: bloque {mejor_par}")
     
     if longitud > 0:
         # Mostrar fragmento (o parte si es muy largo)
@@ -148,7 +213,8 @@ def analizar_textos(texto1, texto2, nombre1, nombre2):
         'longitud': longitud,
         'porcentaje': porcentaje_similitud, 
         'tiempo': tiempo_ejecucion,
-        'fragmento': substring
+        'fragmento': substring,
+        'metodo': metodo
     }
 
 
