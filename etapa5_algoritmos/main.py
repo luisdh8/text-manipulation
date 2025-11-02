@@ -21,6 +21,7 @@ try:
         analisis_multingrama,
         ngramas_comunes_frecuentes
     )
+    from etapa5_algoritmos.lcs import lcs
 except ModuleNotFoundError:
     from hirschberg import hirschberg_con_bloques, calcular_similitud_hirschberg
     from levenshtein import levenshtein_con_bloques, similitud_levenshtein
@@ -29,6 +30,7 @@ except ModuleNotFoundError:
         analisis_multingrama,
         ngramas_comunes_frecuentes
     )
+    from lcs import lcs
 
 
 def leer_archivo(ruta):
@@ -215,6 +217,99 @@ def ejecutar_jaccard(texto1, texto2, nombre1, nombre2):
     }
 
 
+def ejecutar_lcs(texto1, texto2, nombre1, nombre2):
+    """Ejecuta el algoritmo LCS tradicional (de Etapa 4)."""
+    print("\n" + "="*70)
+    print("ALGORITMO 4: LCS TRADICIONAL (Etapa 4 - Comparación)")
+    print("="*70)
+    print("\nNota:")
+    print("Este es el algoritmo LCS tradicional implementado en la Etapa 4.")
+    print("Se incluye para comparación directa con Hirschberg (Etapa 5),")
+    print("que tiene la misma complejidad de tiempo O(n*m) pero usa menos memoria.")
+    print("\nComplejidad: O(n*m) tiempo, O(n*m) espacio")
+    
+    # Usar bloques del mismo tamaño que Hirschberg para comparación justa
+    tamaño_bloque = 5000
+    
+    tiempo_inicio = time.time()
+    
+    if len(texto1) <= tamaño_bloque and len(texto2) <= tamaño_bloque:
+        longitud_lcs, fragmento_lcs = lcs(texto1, texto2)
+        similitud = (2 * longitud_lcs) / (len(texto1) + len(texto2)) * 100
+        metodo = 'directo'
+        mejor_par = None
+        total_bloques = None
+    else:
+        # Dividir en bloques
+        bloques1 = [texto1[i:i+tamaño_bloque] for i in range(0, len(texto1), tamaño_bloque)]
+        bloques2 = [texto2[i:i+tamaño_bloque] for i in range(0, len(texto2), tamaño_bloque)]
+        
+        # Mismo muestreo que Hirschberg
+        max_comparaciones = 25
+        total_comparaciones = len(bloques1) * len(bloques2)
+        
+        if total_comparaciones > max_comparaciones:
+            step1 = max(1, len(bloques1) // 5)
+            step2 = max(1, len(bloques2) // 5)
+            bloques1_muestra = bloques1[::step1]
+            bloques2_muestra = bloques2[::step2]
+        else:
+            bloques1_muestra = bloques1
+            bloques2_muestra = bloques2
+        
+        mejor_longitud = 0
+        mejor_fragmento = ""
+        mejor_par = (0, 0)
+        
+        total = len(bloques1_muestra) * len(bloques2_muestra)
+        actual = 0
+        
+        for i, bloque1 in enumerate(bloques1_muestra):
+            for j, bloque2 in enumerate(bloques2_muestra):
+                actual += 1
+                print(f"   LCS: {actual}/{total} ({actual*100//total}%)...", end='\r')
+                
+                longitud, fragmento = lcs(bloque1, bloque2)
+                
+                if longitud > mejor_longitud:
+                    mejor_longitud = longitud
+                    mejor_fragmento = fragmento
+                    mejor_par = (i, j)
+        
+        print()  # Nueva línea
+        
+        longitud_lcs = mejor_longitud
+        fragmento_lcs = mejor_fragmento
+        similitud = (2 * longitud_lcs) / (tamaño_bloque + tamaño_bloque) * 100
+        metodo = 'bloques'
+        total_bloques = (len(bloques1_muestra), len(bloques2_muestra))
+    
+    tiempo_total = time.time() - tiempo_inicio
+    
+    print(f"\n{'Resultados':-^70}")
+    print(f"Longitud del LCS: {longitud_lcs:,} caracteres")
+    print(f"Porcentaje de similitud: {similitud:.2f}%")
+    print(f"Tiempo de ejecución: {tiempo_total:.4f} segundos")
+    print(f"Método usado: {metodo}")
+    
+    if metodo == 'bloques':
+        print(f"Total de bloques comparados: {total_bloques}")
+        print(f"Mejor coincidencia: bloque {mejor_par}")
+    
+    print(f"\nFragmento encontrado (primeros 300 caracteres):")
+    print("-" * 70)
+    print(fragmento_lcs[:300] if fragmento_lcs else "(No hay fragmento)")
+    print("-" * 70)
+    
+    return {
+        'algoritmo': 'LCS Tradicional (Etapa 4)',
+        'similitud': similitud,
+        'tiempo': tiempo_total,
+        'longitud_lcs': longitud_lcs,
+        'metodo': metodo
+    }
+
+
 def comparar_resultados(resultados_lista):
     """Compara los resultados de todos los algoritmos."""
     print("\n" + "="*70)
@@ -284,6 +379,7 @@ def main():
     print("1. Hirschberg (LCS optimizado en espacio)")
     print("2. Distancia de Levenshtein")
     print("3. Similitud de Jaccard con n-gramas")
+    print("\n+ LCS Tradicional (Etapa 4) para comparación")
     
     # Determinar la ruta base
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -320,6 +416,10 @@ def main():
     
     resultado3 = ejecutar_jaccard(texto1, texto2, archivo1, archivo2)
     todos_los_resultados.append(resultado3)
+    
+    # Ejecutar LCS tradicional para comparación
+    resultado4 = ejecutar_lcs(texto1, texto2, archivo1, archivo2)
+    todos_los_resultados.append(resultado4)
     
     # Comparar resultados
     comparar_resultados(todos_los_resultados)
