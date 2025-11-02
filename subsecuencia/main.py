@@ -167,8 +167,8 @@ def main():
         base_dir = script_dir
     
     # Configuración de archivos a comparar
-    archivo1 = os.path.join(base_dir, "books", "manifesto.txt")
-    archivo2 = os.path.join(base_dir, "books", "capital-v1.txt")
+    archivo1 = os.path.join(base_dir, "books/procesados", "manifesto_limpio.txt")
+    archivo2 = os.path.join(base_dir, "books/procesados", "capital-v1_limpio.txt")
     
     print(f"\nLeyendo archivos...")
     texto1 = leerArchivo(archivo1)
