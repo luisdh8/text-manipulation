@@ -1,0 +1,347 @@
+======================================================================
+ETAPA 5 - INVESTIGACION DE ALTERNATIVAS ALGORITMICAS
+======================================================================
+
+Implementacion y comparacion de algoritmos:
+
+[NUEVOS] ALGORITMOS (Etapa 5):
+1. Hirschberg (LCS optimizado en espacio)
+2. Distancia de Levenshtein
+3. Similitud de Jaccard con n-gramas
+4. Rabin-Karp con ventana deslizante
+
+[ANTERIORES] ALGORITMOS (para comparacion):
+5. LCS Tradicional (Etapa 4 - subsequence)
+6. Longest Common Substring (Etapa 3 - substring)
+
+>> Leyendo archivos...
+[OK] Archivos leídos exitosamente
+   - manifesto_limpio.txt: 113,954 caracteres
+   - capital-v1_limpio.txt: 1,969,363 caracteres
+
+======================================================================
+ALGORITMO 1: HIRSCHBERG (LCS optimizado en espacio)
+======================================================================
+
+Justificación:
+El algoritmo de Hirschberg es una versión optimizada del LCS que
+reduce la complejidad de espacio de O(n*m) a O(min(n,m)) usando
+divide y vencerás. Esto permite procesar textos más grandes sin
+quedarse sin memoria, manteniendo la misma precisión que el LCS.
+
+Ventaja esperada: Menor uso de memoria en textos grandes.
+   Hirschberg: 36/36 (100%)...
+
+------------------------------Resultados------------------------------
+Longitud del LCS: 2,326 caracteres
+Porcentaje de similitud: 23.26%
+Tiempo de ejecución: 257.6660 segundos
+Método usado: bloques
+Total de bloques comparados: (6, 6)
+Mejor coincidencia: bloque (3, 1)
+
+Fragmento encontrado (primeros 300 caracteres):
+----------------------------------------------------------------------
+f the o ocie  here a ere  sent themele re s contins of heve epr t ae o the to ad tl f reaar in in the  of the ar the of  soct  rere redy itased the prot is trer s lation o hse an in a o or nthing  oo ith the boureos fm eations oen in order ueto t ct the e in d s  ae  e as in r ha ste hi o trae o ato
+----------------------------------------------------------------------
+
+======================================================================
+ALGORITMO 2: DISTANCIA DE LEVENSHTEIN
+======================================================================
+
+Justificación:
+La distancia de Levenshtein mide cuántas operaciones (insertar,
+eliminar, sustituir) se necesitan para transformar un texto en otro.
+A diferencia del LCS, penaliza las diferencias y considera sustituciones,
+lo que lo hace ideal para detectar textos casi idénticos con errores.
+
+Ventaja esperada: Mejor detección de variaciones y errores tipográficos.
+   Levenshtein: 36/36 (100%)...
+
+------------------------------Resultados------------------------------
+Distancia promedio entre bloques: 3,788.92
+Similitud promedio: 24.22%
+Mejor similitud encontrada: 25.32%
+Mejor distancia encontrada: 3,734
+Total de bloques comparados: (6, 6)
+Mejor coincidencia: bloque (4, 1)
+Tiempo de ejecución: 523.5029 segundos
+Método usado: bloques
+
+======================================================================
+ALGORITMO 3: SIMILITUD DE JACCARD CON N-GRAMAS
+======================================================================
+
+Justificación:
+Jaccard con n-gramas divide los textos en fragmentos de n caracteres
+consecutivos y mide cuántos se comparten. No requiere que los fragmentos
+estén en el mismo orden, lo que lo hace robusto ante reordenamientos.
+Es muy eficiente (O(n+m)) y usado en detección de plagio.
+
+Ventaja esperada: Alta eficiencia y robustez ante reordenamientos.
+
+-------------Análisis con diferentes tamaños de n-gramas--------------
+
+Resultados por tamaño de n-grama (muestra de 10,000 caracteres):
+  n |  Similitud |  Ponderada |  N-gramas T1 |  N-gramas T2 |  Comunes
+----------------------------------------------------------------------
+  2 |     75.68% |     68.86% |          355 |          353 |      305
+  3 |     52.97% |     47.09% |        1,679 |        1,593 |    1,133
+  4 |     31.73% |     30.89% |        3,487 |        3,155 |    1,600
+  5 |     19.09% |     20.69% |        4,931 |        4,346 |    1,487
+
+----------------Análisis completo con trigramas (n=3)-----------------
+   Jaccard 3-grama: 132/132 (100%)...
+
+Resultados:
+Similitud promedio: 42.59%
+Similitud ponderada promedio: 38.89%
+Mejor similitud encontrada: 49.06%
+Mejor similitud ponderada: 45.76%
+Total de bloques comparados: (12, 11)
+Mejor coincidencia: bloque (5, 4)
+Tamaño de n-grama usado: 3
+Tiempo de ejecución: 0.6599 segundos
+Método usado: bloques
+
+----------------Top 10 n-gramas comunes más frecuentes----------------
+   N-grama |    Freq T1 |    Freq T2 |      Total
+----------------------------------------------------------------------
+     ' th' |        215 |        220 |        435
+     'the' |        183 |        193 |        376
+     'he ' |        169 |        170 |        339
+     'on ' |        109 |        154 |        263
+     'ion' |        105 |        149 |        254
+     'tio' |         98 |        139 |        237
+     ' of' |         77 |        145 |        222
+     'of ' |         75 |        146 |        221
+     ' in' |         72 |         61 |        133
+     'nd ' |         53 |         60 |        113
+
+======================================================================
+ALGORITMO 6: RABIN-KARP (Ventana deslizante - Etapa 5)
+======================================================================
+
+Justificación:
+Rabin-Karp usa hashing (rolling hash) para encontrar el substring
+común más largo de forma más eficiente. Calcula un hash de cada
+ventana y solo compara strings cuando los hashes coinciden.
+Usa búsqueda binaria en la longitud para optimizar aún más.
+
+Ventaja esperada: Mucho más rápido que LCSstr tradicional.
+Complejidad: O(n+m) promedio vs O(n*m) del método clásico
+Bloques de texto 1: 23
+Bloques de texto 2: 394
+Demasiados bloques - usando muestreo (cada 3 x cada 56)
+Comparaciones a realizar: 64
+   Rabin-Karp: 64/64 (100%)...
+
+------------------------------Resultados------------------------------
+Longitud del substring común: 338 caracteres
+Porcentaje de similitud: 6.76%
+Tiempo de ejecución: 8.1676 segundos
+Método usado: bloques
+Total de bloques comparados: (8, 8)
+Mejor coincidencia: bloque (4, 7)
+
+Fragmento encontrado (primeros 300 caracteres):
+----------------------------------------------------------------------
+ revolutionary combination due to association the development of modern industry therefore cuts from under its feet the very foundation on which the bourgeoisie produces and appropriates products what the bourgeoisie therefore produces above all are its own gravediggers its fall and the victory of t
+----------------------------------------------------------------------
+
+======================================================================
+ALGORITMO 4: LCS TRADICIONAL (Etapa 4 - Comparación)
+======================================================================
+
+Nota:
+Este es el algoritmo LCS tradicional implementado en la Etapa 4.
+Se incluye para comparación directa con Hirschberg (Etapa 5),
+que tiene la misma complejidad de tiempo O(n*m) pero usa menos memoria.
+
+Complejidad: O(n*m) tiempo, O(n*m) espacio
+   LCS: 36/36 (100%)...
+
+------------------------------Resultados------------------------------
+Longitud del LCS: 2,326 caracteres
+Porcentaje de similitud: 46.52%
+Tiempo de ejecución: 124.0587 segundos
+Método usado: bloques
+Total de bloques comparados: (6, 6)
+Mejor coincidencia: bloque (3, 1)
+
+Fragmento encontrado (primeros 300 caracteres):
+----------------------------------------------------------------------
+f the od soce a ere and there  sept o the ve   prot evluo t condtin o ie eer a it a oe r the a of  e of rctionry intre  the oditnf te pleri thos of o sit at re re are irtua w the rer s ot propertis aton o i e ad le h oone th in oo  the ueof e mens oroduction o ata the same ing  rane  e an  h rd h of
+----------------------------------------------------------------------
+
+======================================================================
+ALGORITMO 5: LONGEST COMMON SUBSTRING (Etapa 3 - Comparación)
+======================================================================
+
+Nota:
+Este es el algoritmo LCSstr de la Etapa 3 (substring común más largo).
+A diferencia del LCS (subsequence), este busca fragmentos CONTIGUOS.
+Se incluye para comparar con Rabin-Karp (Etapa 5).
+
+Complejidad: O(n*m) tiempo, O(n*m) espacio
+Bloques de texto 1: 23
+Bloques de texto 2: 394
+Demasiados bloques - usando muestreo (cada 3 x cada 56)
+Comparaciones a realizar: 64
+   LCSstr: 64/64 (100%)...
+
+------------------------------Resultados------------------------------
+Longitud del substring común: 338 caracteres
+Porcentaje de similitud: 6.76%
+Tiempo de ejecución: 103.8714 segundos
+Método usado: bloques
+Total de bloques comparados: (8, 8)
+Mejor coincidencia: bloque (4, 7)
+
+Fragmento encontrado (primeros 300 caracteres):
+----------------------------------------------------------------------
+ revolutionary combination due to association the development of modern industry therefore cuts from under its feet the very foundation on which the bourgeoisie produces and appropriates products what the bourgeoisie therefore produces above all are its own gravediggers its fall and the victory of t
+----------------------------------------------------------------------
+
+======================================================================
+COMPARACIÓN DE RESULTADOS DE TODOS LOS ALGORITMOS
+======================================================================
+
+                    [NUEVOS] ALGORITMOS (Etapa 5)
+          Algoritmo            |  Similitud   |  Tiempo (s)
+----------------------------------------------------------------------
+          Hirschberg           |    23.26    % |   257.6660
+         Levenshtein           |    25.32    % |   523.5029
+      Jaccard (n-grama)        |    49.06    % |    0.6599
+     Rabin-Karp (Etapa 5)      |     6.76    % |    8.1676
+
+                [ANTERIORES] ALGORITMOS (Comparación)
+          Algoritmo            |  Similitud   |  Tiempo (s)
+----------------------------------------------------------------------
+  LCS Tradicional (Etapa 4)    |    46.52    % |   124.0587
+ Longest Substring (Etapa 3)   |     6.76    % |   103.8714
+
+======================================================================
+ANÁLISIS COMPARATIVO
+======================================================================
+
+[*] Mayor similitud detectada:
+   Jaccard (n-grama): 49.06%
+
+[*] Algoritmo más rápido:
+   Jaccard (n-grama): 0.6599 segundos
+
+[*] Comparaciones específicas:
+
+     Hirschberg vs LCS Tradicional (ambos buscan subsequence):
+      Similitud: 23.26% vs 46.52%
+      Tiempo: 257.6660s vs 124.0587s
+      -> LCS Tradicional es 2.08x más rápido
+      [+] Ventaja de Hirschberg: Mismo resultado, menos memoria
+
+   📌 Rabin-Karp vs Longest Substring (ambos buscan substring):
+      Similitud: 6.76% vs 6.76%
+      Tiempo: 8.1676s vs 103.8714s
+      -> Rabin-Karp es 12.72x más rápido
+      [+] Ventaja de Rabin-Karp: Rolling hash, búsqueda binaria
+
+[*] Interpretación de resultados:
+
+   Similitud promedio entre todos los métodos: 26.28%
+   -> Los textos tienen BAJA SIMILITUD
+
+[*] Análisis de eficiencia:
+   Hirschberg                     : 257.6660s ( 25.3%)
+   Levenshtein                    : 523.5029s ( 51.4%)
+   Jaccard (n-grama)              :  0.6599s (  0.1%)
+   Rabin-Karp (Etapa 5)           :  8.1676s (  0.8%)
+   LCS Tradicional (Etapa 4)      : 124.0587s ( 12.2%)
+   Longest Substring (Etapa 3)    : 103.8714s ( 10.2%)
+
+   Tiempo total de ejecución: 1017.9265 segundos
+
+======================================================================
+CONCLUSIONES
+======================================================================
+
+[*] Resumen de Etapa 5:
+
+Se implementaron y compararon 6 algoritmos de similitud textual:
+
+[NUEVOS] ALGORITMOS (Etapa 5):
+
+   1. Hirschberg (LCS optimizado en espacio)
+       [+] Reduce memoria de O(n*m) a O(min(n,m))
+       [+] Mismo resultado que LCS tradicional
+       [!] Más lento en la práctica por overhead de divide-y-conquista
+       >> Mejor para: Textos grandes con memoria limitada
+
+   2. Distancia de Levenshtein
+       [+] Detecta ediciones, sustituciones, inserciones, eliminaciones
+       [+] Ideal para detectar textos casi idénticos con errores
+       [!] Muy lento O(n*m) con constantes altas
+       >> Mejor para: Corrección ortográfica, diff de archivos
+
+   3. Similitud de Jaccard con n-gramas
+       [+] EXTREMADAMENTE RÁPIDO: O(n+m)
+       [+] Robusto ante reordenamientos
+       [+] Usado en detección de plagio
+       >> Mejor para: Comparaciones rápidas, grandes volúmenes
+
+   4. Rabin-Karp con ventana deslizante
+       [+] Mucho más rápido que Longest Substring tradicional
+       [+] Rolling hash permite búsqueda eficiente
+       [+] Búsqueda binaria optimiza aún más
+       >> Mejor para: Encontrar fragmentos comunes exactos rápidamente
+
+[ANTERIORES] ALGORITMOS (Comparación):
+
+   [*] Hirschberg vs LCS Tradicional (Etapa 4):
+      • Ambos buscan longest common SUBSEQUENCE
+      • Resultado depende del caso específico
+      • Hirschberg usa menos memoria (ventaja en textos gigantes)
+      • Resultado: Misma longitud de LCS encontrada
+
+   [*] Rabin-Karp vs Longest Substring (Etapa 3):
+      • Ambos buscan longest common SUBSTRING (contiguo)
+      • Rabin-Karp es significativamente más rápido
+      • Ambos encuentran el mismo substring
+      • Rabin-Karp es claramente superior en eficiencia
+
+[*] RECOMENDACIONES POR CASO DE USO:
+
+   [->] Necesitas velocidad máxima?
+      >> Jaccard con n-gramas (el más rápido)
+
+   [->] Buscas fragmentos comunes exactos?
+      >> Rabin-Karp (mucho más rápido que método clásico)
+
+   [->] Necesitas detectar textos con errores tipográficos?
+      >> Levenshtein (pero prepara café, es lento)
+
+   [->] Textos gigantes con poca memoria?
+      >> Hirschberg (usa O(min(n,m)) espacio vs O(n*m))
+
+   [->] Necesitas precisión académica?
+      >> LCS Tradicional (balance entre velocidad y precisión)
+
+[*] LECCIÓN PRINCIPAL:
+
+   No existe "el mejor algoritmo" - cada uno tiene su nicho:
+
+   • Jaccard: Ganador absoluto en velocidad y detección general
+   • Rabin-Karp: Mejor para substrings exactos, gran mejora sobre método clásico
+   • Levenshtein: Único que detecta distancia de edición
+   • Hirschberg: Útil cuando la memoria es el cuello de botella
+
+   La elección depende de:
+   [+] Tamaño de los textos
+   [+] Restricciones de tiempo
+   [+] Restricciones de memoria
+   [+] Tipo de similitud que buscas (subsequence vs substring)
+   [+] Tolerancia a errores o cambios
+
+
+======================================================================
+[OK] Análisis completado exitosamente
+======================================================================

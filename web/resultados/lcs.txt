@@ -1,0 +1,43 @@
+======================================================================
+ANÁLISIS DE SIMILITUD DE TEXTOS USANDO LCS
+======================================================================
+
+Leyendo archivos...
+Archivos leídos exitosamente
+   - C:\Users\luisd\OneDrive - Instituto Tecnologico y de Estudios Superiores de Monterrey\PROFESIONAL ITC\5TO SEM\Algoritmos\text-manipulation\books/procesados\manifesto_limpio.txt: 113,954 caracteres
+   - C:\Users\luisd\OneDrive - Instituto Tecnologico y de Estudios Superiores de Monterrey\PROFESIONAL ITC\5TO SEM\Algoritmos\text-manipulation\books/procesados\capital-v1_limpio.txt: 1,969,363 caracteres
+
+Textos muy grandes para comparación directa
+   Se usará estrategia de división en bloques
+
+Demasiados bloques, usando muestreo estratégico
+
+Estrategia de comparación:
+   - Texto 1: 12 bloque(s) a comparar
+   - Texto 2: 11 bloque(s) a comparar
+   - Comparaciones a realizar: 132
+   Comparando: 132/132 (100%)...
+
+======================================================================
+RESULTADOS DE LA COMPARACIÓN
+======================================================================
+Archivos comparados: C:\Users\luisd\OneDrive - Instituto Tecnologico y de Estudios Superiores de Monterrey\PROFESIONAL ITC\5TO SEM\Algoritmos\text-manipulation\books/procesados\manifesto_limpio.txt vs C:\Users\luisd\OneDrive - Instituto Tecnologico y de Estudios Superiores de Monterrey\PROFESIONAL ITC\5TO SEM\Algoritmos\text-manipulation\books/procesados\capital-v1_limpio.txt
+
+Longitud de LCS: 2352 caracteres
+Similitud: 47.13%
+Tiempo de ejecución: 442.6643 segundos
+
+Información de bloques:
+   - Total bloques texto 1: 12
+   - Total bloques texto 2: 11
+   - Mejor coincidencia: bloque 6 x bloque 8
+   - Tamaño de bloque usado: 5000 caracteres
+
+Fragmento encontrado (primeros 500 caracteres):
+----------------------------------------------------------------------
+ mas of productio o the oth th ost of e market d the met oition of t odone thatist sy p the ometesean o te res a y in the means whey ca ree the aons itit ouoise  is o eg  no n aains the bureos it  ntnly a the oesefore th eas tha r th itlit ss cae no etn the e wh ae o el thoseon  h men orin css th trans n ton a the ocial s o ine a protion i the oer the moder in ae labourers ho ive lon thefor nhin ls n theioricress ci the ouer om themes piear a mitie eer the rtice of c and e oeun epod t  the icstu
+----------------------------------------------------------------------
+
+======================================================================
+Análisis completado
+======================================================================
