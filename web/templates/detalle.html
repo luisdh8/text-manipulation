@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle - {{ algoritmo | upper }}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            transition: background 0.3s;
+        }
+
+        .back-button:hover {
+            background: #764ba2;
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 30px;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .metric-card {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .metric-card h3 {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .metric-card .value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .full-output {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 30px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.6;
+            overflow-x: auto;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .full-output h3 {
+            color: #50fa7b;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-button">← Volver al Dashboard</a>
+        
+        <h1>Detalle del Algoritmo: {{ algoritmo | upper }}</h1>
+
+        <div class="metrics">
+            {% if metricas.longitud %}
+            <div class="metric-card">
+                <h3>Longitud Encontrada</h3>
+                <div class="value">{{ metricas.longitud }}</div>
+                <small>caracteres</small>
+            </div>
+            {% endif %}
+
+            {% if metricas.similitud %}
+            <div class="metric-card">
+                <h3>Similitud</h3>
+                <div class="value">{{ "%.2f" | format(metricas.similitud) }}%</div>
+            </div>
+            {% endif %}
+
+            {% if metricas.tiempo %}
+            <div class="metric-card">
+                <h3>Tiempo de Ejecución</h3>
+                <div class="value">{{ "%.4f" | format(metricas.tiempo) }}</div>
+                <small>segundos</small>
+            </div>
+            {% endif %}
+
+            {% if metricas.distancia %}
+            <div class="metric-card">
+                <h3>Distancia de Edición</h3>
+                <div class="value">{{ metricas.distancia }}</div>
+                <small>operaciones</small>
+            </div>
+            {% endif %}
+        </div>
+
+        {% if metricas.fragmento %}
+        <div style="margin-bottom: 30px;">
+            <h2 style="margin-bottom: 15px;">Fragmento Encontrado</h2>
+            <div style="background: #f0f7ff; padding: 20px; border-radius: 10px; border-left: 4px solid #2196F3;">
+                <code>{{ metricas.fragmento }}</code>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="full-output">
+            <h3>📄 Salida Completa del Algoritmo</h3>
+            <pre>{{ texto_completo }}</pre>
+        </div>
+    </div>
+</body>
+</html>

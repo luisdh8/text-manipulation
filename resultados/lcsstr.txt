@@ -1,0 +1,31 @@
+=== ALGORITMO LONGEST COMMON SUBSTRING ===
+Buscando en: C:\Users\luisd\OneDrive - Instituto Tecnologico y de Estudios Superiores de Monterrey\PROFESIONAL ITC\5TO SEM\Algoritmos\text-manipulation\books\procesados
+Archivos de texto limpios encontrados:
+  1. capital-v1_limpio.txt
+  2. manifesto_limpio.txt
+Archivo leído: capital-v1_limpio.txt (1,969,363 caracteres)
+Archivo leído: manifesto_limpio.txt (113,954 caracteres)
+
+Se cargaron 2 archivos correctamente
+
+=== ANÁLISIS DE SUBSTRING COMÚN MÁS LARGO ===
+Texto 1: capital-v1_limpio.txt (1,969,363 caracteres)
+Texto 2: manifesto_limpio.txt (113,954 caracteres)
+
+Textos grandes - usando división en bloques de 5,000 caracteres
+Bloques de texto 1: 394
+Bloques de texto 2: 23
+Demasiados bloques - usando muestreo (cada 56 x cada 3)
+Comparaciones a realizar: 64
+   Procesando: 64/64 (100%)...
+
+RESULTADOS:
+• Longitud del substring común más largo: 338 caracteres
+• Porcentaje de similitud: 6.76%
+• Tiempo de ejecución: 97.9860 segundos
+• Método usado: bloques
+• Total de bloques comparados: (8, 8)
+• Mejor coincidencia encontrada en: bloque (7, 4)
+• Fragmento encontrado (primeros/últimos 150 chars): " revolutionary combination due to association the development of modern industry therefore cuts from under its feet the very foundation on which the b...roducts what the bourgeoisie therefore produces above all are its own gravediggers its fall and the victory of the proletariat are equally inevitable "
+
+=== ANÁLISIS COMPLETADO ===

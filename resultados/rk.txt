@@ -1,0 +1,52 @@
+======================================================================
+ALGORITMO RABIN-KARP CON VENTANA DESLIZANTE
+======================================================================
+
+Justificación:
+Rabin-Karp usa hashing (rolling hash) para comparar substrings de
+forma más eficiente que el algoritmo clásico O(n²). En lugar de
+comparar cada carácter, calcula un hash de cada ventana y solo
+compara strings cuando los hashes coinciden.
+
+Ventajas esperadas:
+• Más rápido en promedio: O(n+m) vs O(n*m)
+• Usa menos memoria (no requiere matriz n×m)
+• Rolling hash permite actualización en O(1)
+• Ideal para textos muy grandes
+======================================================================
+Buscando en: C:\Users\luisd\OneDrive - Instituto Tecnologico y de Estudios Superiores de Monterrey\PROFESIONAL ITC\5TO SEM\Algoritmos\text-manipulation\books\procesados
+
+Archivos de texto limpios encontrados:
+  1. capital-v1_limpio.txt
+  2. manifesto_limpio.txt
+Archivo leído: capital-v1_limpio.txt (1,969,363 caracteres)
+Archivo leído: manifesto_limpio.txt (113,954 caracteres)
+
+Se cargaron 2 archivos correctamente
+
+=== ANÁLISIS CON RABIN-KARP (ROLLING HASH) ===
+Texto 1: capital-v1_limpio.txt (1,969,363 caracteres)
+Texto 2: manifesto_limpio.txt (113,954 caracteres)
+Método: Búsqueda binaria
+
+Textos grandes - usando división en bloques de 5,000 caracteres
+Bloques de texto 1: 394
+Bloques de texto 2: 23
+Demasiados bloques - usando muestreo (cada 56 x cada 3)
+Comparaciones a realizar: 64
+   Rabin-Karp: 64/64 (100%)...
+
+RESULTADOS:
+• Algoritmo: Rabin-Karp con rolling hash
+• Longitud del substring común más largo: 338 caracteres
+• Porcentaje de similitud: 6.76%
+• Tiempo de ejecución: 6.6600 segundos
+• Método usado: bloques
+• Total de bloques comparados: (8, 8)
+• Mejor coincidencia encontrada en: bloque (7, 4)
+• Fragmento encontrado (primeros/últimos 150 chars):
+  " revolutionary combination due to association the development of modern industry therefore cuts from under its feet the very foundation on which the b...roducts what the bourgeoisie therefore produces above all are its own gravediggers its fall and the victory of the proletariat are equally inevitable "
+
+======================================================================
+ANÁLISIS COMPLETADO
+======================================================================
