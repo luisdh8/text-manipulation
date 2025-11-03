@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 def leer_resultado(archivo):
     """Lee un archivo de resultados y extrae la información relevante"""
-    ruta = Path(__file__).parent.parent / 'resultados' / archivo
+    ruta = Path(__file__).parent / 'resultados' / archivo  # 👈 aquí el cambio
     try:
         with open(ruta, 'r', encoding='utf-8') as f:
             contenido = f.read()
